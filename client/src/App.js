@@ -29,18 +29,20 @@ export default function App() {
   }, []);
 
   const KaydedilenlerListesineEkle = (id) => {
+    console.log("saved", id);
+    if (saved.find((movie) => movie.id == id)) {
+      console.log("Bu film zaten kayıtlı");
+    } else {
+      const movieToAdd = movieList.find((movie) => movie.id == id);
+      setSaved([...saved, movieToAdd]);
+    }
+
     // Burası esnek. Aynı filmin birden fazla kez "saved" e eklenmesini engelleyin
   };
 
   return (
     <div>
-      <KaydedilenlerListesi
-        list={
-          [
-            /* Burası esnek */
-          ]
-        }
-      />
+      <KaydedilenlerListesi list={[...saved]} />
 
       <Switch>
         <Route path="/" exact>
@@ -48,7 +50,7 @@ export default function App() {
           <FilmListesi movies={movieList} />
         </Route>
         <Route path="/filmler/:id" exact>
-          Tek Film <Film />
+          Tek Film <Film kaydet={KaydedilenlerListesineEkle} />
         </Route>
         <Route path="/filmler">
           Filmler listesi

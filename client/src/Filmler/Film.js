@@ -51,7 +51,9 @@ export default function Film(props) {
           </div>
         ))}
       </div>
-      <div className="save-button">Kaydet</div>
+      <div onClick={() => props.kaydet(id)} className="save-button">
+        Kaydet
+      </div>
     </div>
   );
 }
