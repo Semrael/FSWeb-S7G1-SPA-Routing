@@ -4,6 +4,8 @@ import axios from "axios";
 import { Switch, Route, Link } from "react-router-dom";
 
 import KaydedilenlerListesi from "./Filmler/KaydedilenlerListesi";
+import FilmListesi from "./Filmler/FilmListesi";
+import Film from "./Filmler/Film";
 
 export default function App() {
   const [saved, setSaved] = useState([]); // Stretch: the ids of "saved" movies
@@ -14,8 +16,10 @@ export default function App() {
       axios
         .get("http://localhost:5001/api/filmler") // Burayı Postman'le çalışın
         .then((response) => {
+          console.log("Filmler", response.data);
           // Bu kısmı log statementlarıyla çalışın
           // ve burdan gelen response'u 'movieList' e aktarın
+          setMovieList(response.data);
         })
         .catch((error) => {
           console.error("Sunucu Hatası", error);
@@ -39,10 +43,17 @@ export default function App() {
       />
 
       <Switch>
-        <Route exact path="/" exact>
+        <Route path="/" exact>
           Ana Sayfa
+          <FilmListesi movies={movieList} />
         </Route>
-        <Route path="/filmler/:id">Tek Film</Route>
+        <Route path="/filmler/:id" exact>
+          Tek Film <Film />
+        </Route>
+        <Route path="/filmler">
+          Filmler listesi
+          <FilmListesi movies={movieList} />
+        </Route>
       </Switch>
     </div>
   );
